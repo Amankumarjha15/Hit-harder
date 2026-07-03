@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Screen Assistant</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <main class="pop">
+    <header class="pop-header">
+      <svg class="pop-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="3.2" class="pop-icon-dot"></circle></svg>
+      <h1>AI Screen Assistant</h1>
+    </header>
+
+    <section class="pop-capture">
+      <label for="prompt-input" class="pop-label">Ask about this tab (optional)</label>
+      <textarea id="prompt-input" class="pop-textarea" rows="2" placeholder="e.g. Explain this error message"></textarea>
+      <button id="capture-btn" class="pop-primary-btn" type="button">
+        <span class="pop-btn-icon" aria-hidden="true">◎</span>
+        Capture &amp; Analyze
+      </button>
+      <p class="pop-shortcut-hint">Shortcut: <kbd id="shortcut-label">Ctrl+Shift+A</kbd></p>
+    </section>
+
+    <section class="pop-history">
+      <div class="pop-history-header">
+        <h2>Recent</h2>
+        <button id="view-all-btn" class="pop-link-btn" type="button">View all</button>
+      </div>
+      <ul id="history-list" class="pop-history-list"></ul>
+      <p id="history-empty" class="pop-empty" hidden>No history yet — try a capture.</p>
+    </section>
+
+    <footer class="pop-footer">
+      <button id="settings-btn" class="pop-link-btn" type="button">Settings</button>
+    </footer>
+  </main>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
