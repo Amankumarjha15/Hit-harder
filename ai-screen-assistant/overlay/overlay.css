@@ -1,0 +1,315 @@
+/* overlay/overlay.css
+ * Design language: "viewfinder" — the extension looks through a camera
+ * aperture at the page. The iris-blade motif from the loading spinner is
+ * the signature element; everything else stays quiet and disciplined so it
+ * doesn't compete with page content.
+ */
+
+.asa-root [hidden] { display: none !important; }
+
+.asa-root {
+  /* The `hidden` attribute must always win over a class's `display` rule
+     (e.g. .asa-footer sets display:flex, .asa-icon-btn sets
+     display:inline-flex) — otherwise elements marked hidden in the initial
+     markup render anyway, since author CSS overrides the browser's default
+     [hidden]{display:none} regardless of specificity. */
+  --asa-bg-dark: #171a2b;
+  --asa-surface-dark: #1f2338;
+  --asa-text-dark: #ecece3;
+  --asa-muted-dark: #9298b5;
+  --asa-border-dark: rgba(255, 255, 255, 0.09);
+
+  --asa-bg-light: #f7f5f0;
+  --asa-surface-light: #ffffff;
+  --asa-text-light: #1b1e2a;
+  --asa-muted-light: #666b80;
+  --asa-border-light: rgba(20, 20, 30, 0.09);
+
+  --asa-accent: #e8a33d;
+  --asa-accent-2: #4fb0a5;
+  --asa-danger: #e2604f;
+
+  --asa-font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --asa-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  --asa-width: 420px;
+  --asa-font-size: 14px;
+
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  font-family: var(--asa-font-ui);
+  font-size: var(--asa-font-size);
+  line-height: 1.5;
+}
+
+.asa-card {
+  position: fixed;
+  width: min(var(--asa-width), calc(100vw - 32px));
+  max-height: min(640px, calc(100vh - 32px));
+  display: flex;
+  flex-direction: column;
+  border-radius: 14px;
+  overflow: hidden;
+  pointer-events: auto;
+  box-shadow: 0 20px 60px rgba(10, 10, 20, 0.35), 0 2px 8px rgba(10, 10, 20, 0.15);
+  animation: asa-pop-in 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  border: 1px solid transparent;
+}
+
+@keyframes asa-pop-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* --- Positioning ---------------------------------------------------- */
+.asa-pos-top-right .asa-card    { top: 20px; right: 20px; }
+.asa-pos-top-left .asa-card     { top: 20px; left: 20px; }
+.asa-pos-bottom-right .asa-card { bottom: 20px; right: 20px; }
+.asa-pos-bottom-left .asa-card  { bottom: 20px; left: 20px; }
+.asa-pos-center .asa-card       { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+
+/* --- Theme: dark (default) ------------------------------------------ */
+.asa-theme-dark .asa-card {
+  background: var(--asa-surface-dark);
+  color: var(--asa-text-dark);
+  border-color: var(--asa-border-dark);
+}
+.asa-theme-dark .asa-header { background: var(--asa-bg-dark); border-color: var(--asa-border-dark); }
+.asa-theme-dark .asa-footer { background: var(--asa-bg-dark); border-color: var(--asa-border-dark); }
+.asa-theme-dark .asa-muted { color: var(--asa-muted-dark); }
+
+/* --- Theme: light ----------------------------------------------------- */
+.asa-theme-light .asa-card {
+  background: var(--asa-surface-light);
+  color: var(--asa-text-light);
+  border-color: var(--asa-border-light);
+}
+.asa-theme-light .asa-header { background: var(--asa-bg-light); border-color: var(--asa-border-light); }
+.asa-theme-light .asa-footer { background: var(--asa-bg-light); border-color: var(--asa-border-light); }
+.asa-theme-light .asa-muted { color: var(--asa-muted-light); }
+
+/* --- Header ----------------------------------------------------------- */
+.asa-drag-handle {
+  height: 6px;
+  cursor: grab;
+  background: transparent;
+}
+.asa-drag-handle:active { cursor: grabbing; }
+
+.asa-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid;
+}
+
+.asa-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--asa-font-mono);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.asa-brand-icon { width: 16px; height: 16px; fill: none; stroke: var(--asa-accent); stroke-width: 1.6; }
+.asa-brand-dot { fill: var(--asa-accent); stroke: none; }
+
+.asa-header-actions { display: flex; align-items: center; gap: 4px; }
+
+.asa-provider-badge {
+  font-family: var(--asa-font-mono);
+  font-size: 10.5px;
+  padding: 2px 7px;
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--asa-accent-2) 20%, transparent);
+  color: var(--asa-accent-2);
+  margin-right: 4px;
+  white-space: nowrap;
+}
+
+.asa-icon-btn {
+  all: unset;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  font-size: 13px;
+  opacity: 0.75;
+  transition: background 120ms ease, opacity 120ms ease;
+}
+.asa-icon-btn:hover { opacity: 1; background: color-mix(in srgb, currentColor 12%, transparent); }
+.asa-icon-btn:focus-visible { outline: 2px solid var(--asa-accent); outline-offset: 1px; opacity: 1; }
+
+/* --- Status row / aperture spinner ------------------------------------ */
+.asa-status-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 16px;
+}
+
+.asa-status-text {
+  font-size: calc(var(--asa-font-size) - 1px);
+  color: inherit;
+  opacity: 0.85;
+}
+
+.asa-aperture { width: 34px; height: 34px; flex-shrink: 0; overflow: visible; }
+.asa-blade {
+  fill: var(--asa-accent);
+  transform-origin: 20px 20px;
+  animation: asa-blade-pulse 1.4s ease-in-out infinite;
+  opacity: 0.35;
+}
+@keyframes asa-blade-pulse {
+  0%, 100% { opacity: 0.25; transform-origin: 20px 20px; }
+  50% { opacity: 1; }
+}
+
+.asa-state-error .asa-aperture .asa-blade { fill: var(--asa-danger); }
+
+/* --- Body / result ------------------------------------------------------ */
+.asa-body {
+  overflow-y: auto;
+  padding: 0 16px;
+}
+
+.asa-result {
+  padding: 4px 0 16px;
+  word-wrap: break-word;
+}
+.asa-result:focus { outline: none; }
+
+.asa-error {
+  padding: 14px 14px;
+  margin: 4px 0 16px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--asa-danger) 12%, transparent);
+  color: var(--asa-danger);
+  font-size: calc(var(--asa-font-size) - 1px);
+}
+
+/* Markdown element styling */
+.asa-heading { margin: 14px 0 6px; font-weight: 700; line-height: 1.3; }
+.asa-paragraph { margin: 0 0 10px; }
+.asa-list { margin: 0 0 10px; padding-left: 20px; }
+.asa-list li { margin-bottom: 4px; }
+.asa-quote {
+  margin: 0 0 10px;
+  padding: 4px 12px;
+  border-left: 3px solid var(--asa-accent-2);
+  opacity: 0.85;
+  font-style: italic;
+}
+.asa-hr { border: none; border-top: 1px solid; opacity: 0.15; margin: 12px 0; }
+
+.asa-inline-code {
+  font-family: var(--asa-font-mono);
+  font-size: 0.9em;
+  padding: 1px 5px;
+  border-radius: 5px;
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
+
+.asa-code-block {
+  margin: 8px 0 14px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+}
+.asa-code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  font-family: var(--asa-font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: color-mix(in srgb, currentColor 6%, transparent);
+  opacity: 0.8;
+}
+.asa-copy-code-btn {
+  all: unset;
+  cursor: pointer;
+  font-family: var(--asa-font-mono);
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 5px;
+  background: color-mix(in srgb, currentColor 12%, transparent);
+}
+.asa-copy-code-btn:hover { background: color-mix(in srgb, currentColor 20%, transparent); }
+
+.asa-code-block pre {
+  margin: 0;
+  padding: 12px;
+  overflow-x: auto;
+}
+.asa-code {
+  font-family: var(--asa-font-mono);
+  font-size: 0.88em;
+  line-height: 1.55;
+  white-space: pre;
+}
+
+.tok-comment { opacity: 0.55; font-style: italic; }
+.tok-string { color: var(--asa-accent-2); }
+.tok-number { color: var(--asa-accent); }
+.tok-keyword { color: #7aa2f7; font-weight: 600; }
+.tok-function { color: #d19a66; }
+
+/* --- Footer / follow-up ------------------------------------------------- */
+.asa-footer {
+  display: flex;
+  gap: 8px;
+  padding: 10px 12px;
+  border-top: 1px solid;
+}
+
+.asa-followup-input {
+  flex: 1;
+  font: inherit;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+  background: color-mix(in srgb, currentColor 4%, transparent);
+  color: inherit;
+}
+.asa-followup-input:focus-visible { outline: 2px solid var(--asa-accent); outline-offset: 1px; }
+
+.asa-followup-send {
+  all: unset;
+  cursor: pointer;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: calc(var(--asa-font-size) - 1px);
+  background: var(--asa-accent);
+  color: #1a1204;
+  transition: filter 120ms ease;
+}
+.asa-followup-send:hover { filter: brightness(1.08); }
+.asa-followup-send:focus-visible { outline: 2px solid var(--asa-accent-2); outline-offset: 2px; }
+
+/* --- Scrollbar (webkit) -------------------------------------------------- */
+.asa-body::-webkit-scrollbar { width: 8px; }
+.asa-body::-webkit-scrollbar-thumb { background: color-mix(in srgb, currentColor 20%, transparent); border-radius: 8px; }
+
+/* --- Reduced motion ------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .asa-card { animation: none; }
+  .asa-blade { animation: none; opacity: 0.8; }
+}
+
+/* --- Small viewports ------------------------------------------------------ */
+@media (max-width: 480px) {
+  .asa-card { width: calc(100vw - 20px) !important; left: 10px !important; right: 10px !important; }
+}
