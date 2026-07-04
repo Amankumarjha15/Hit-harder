@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Screen Assistant — Settings</title>
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <div class="opt-shell">
+    <aside class="opt-nav" aria-label="Settings sections">
+      <div class="opt-brand">
+        <svg class="opt-brand-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="3.2" class="opt-brand-dot"></circle></svg>
+        <span>AI Screen Assistant</span>
+      </div>
+      <nav>
+        <button class="opt-nav-btn is-active" data-section="provider">AI Provider</button>
+        <button class="opt-nav-btn" data-section="appearance">Popup Appearance</button>
+        <button class="opt-nav-btn" data-section="shortcut">Keyboard Shortcut</button>
+        <button class="opt-nav-btn" data-section="history">History</button>
+        <button class="opt-nav-btn" data-section="about">About &amp; Privacy</button>
+      </nav>
+    </aside>
+
+    <main class="opt-main">
+      <!-- Provider -->
+      <section id="section-provider" class="opt-section is-active">
+        <h1>AI Provider</h1>
+        <p class="opt-sub">Choose which AI service analyzes your screenshots, and add its API key.</p>
+
+        <div class="opt-field">
+          <label for="provider-select">Provider</label>
+          <select id="provider-select"></select>
+        </div>
+
+        <div class="opt-field">
+          <label for="model-select">Model</label>
+          <select id="model-select"></select>
+          <p class="opt-hint" id="provider-note" hidden></p>
+        </div>
+
+        <div class="opt-field">
+          <label for="api-key-input">API key</label>
+          <p class="opt-hint">Paste any provider's key below and it'll auto-detect which one it belongs to and switch the provider/model for you.</p>
+          <div class="opt-key-row">
+            <input id="api-key-input" type="text" autocomplete="off" spellcheck="false" placeholder="Paste your API key" />
+            <button id="toggle-key-visibility" class="opt-icon-btn" type="button" title="Hide key" aria-pressed="false">🙈</button>
+          </div>
+          <p class="opt-hint" id="key-hint"></p>
+          <p class="opt-hint" id="key-paste-confirm" aria-live="polite"></p>
+          <div class="opt-key-actions">
+            <button id="test-key-btn" class="opt-secondary-btn" type="button">Test key</button>
+            <span id="key-test-result" class="opt-key-result"></span>
+          </div>
+        </div>
+
+        <button id="save-provider-btn" class="opt-primary-btn" type="button">Save</button>
+        <span id="provider-save-status" class="opt-save-status" role="status"></span>
+      </section>
+
+      <!-- Appearance -->
+      <section id="section-appearance" class="opt-section">
+        <h1>Popup Appearance</h1>
+        <p class="opt-sub">Controls how the floating result overlay looks and where it appears.</p>
+
+        <div class="opt-field">
+          <label for="position-select">Position</label>
+          <select id="position-select">
+            <option value="top-right">Top right</option>
+            <option value="top-left">Top left</option>
+            <option value="bottom-right">Bottom right</option>
+            <option value="bottom-left">Bottom left</option>
+            <option value="center">Center</option>
+          </select>
+        </div>
+
+        <div class="opt-field">
+          <label for="width-range">Width: <span id="width-value">420</span>px</label>
+          <input id="width-range" type="range" min="320" max="640" step="10" />
+        </div>
+
+        <div class="opt-field">
+          <label for="fontsize-range">Font size: <span id="fontsize-value">14</span>px</label>
+          <input id="fontsize-range" type="range" min="12" max="18" step="1" />
+        </div>
+
+        <div class="opt-field">
+          <label for="theme-select">Theme</label>
+          <select id="theme-select">
+            <option value="auto">Match system</option>
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+          </select>
+        </div>
+
+        <button id="save-appearance-btn" class="opt-primary-btn" type="button">Save</button>
+        <span id="appearance-save-status" class="opt-save-status" role="status"></span>
+      </section>
+
+      <!-- Shortcut -->
+      <section id="section-shortcut" class="opt-section">
+        <h1>Keyboard Shortcut</h1>
+        <p class="opt-sub">Browsers manage extension shortcuts in their own settings page for security reasons — this extension can't change it directly, but here's a quick way there.</p>
+        <div class="opt-field">
+          <p>Current shortcut: <kbd id="current-shortcut">Ctrl+Shift+A</kbd></p>
+          <button id="open-shortcuts-btn" class="opt-secondary-btn" type="button">Open browser shortcut settings</button>
+          <p class="opt-hint" id="shortcut-browser-hint"></p>
+        </div>
+      </section>
+
+      <!-- History -->
+      <section id="section-history" class="opt-section">
+        <h1>History</h1>
+        <p class="opt-sub">Stored locally on this device only — never sent anywhere except back to you.</p>
+
+        <div class="opt-history-toolbar">
+          <input id="history-search" type="search" placeholder="Search history…" />
+          <button id="clear-history-btn" class="opt-danger-btn" type="button">Clear all</button>
+        </div>
+
+        <ul id="history-full-list" class="opt-history-list"></ul>
+        <p id="history-full-empty" class="opt-hint" hidden>No history yet.</p>
+      </section>
+
+      <!-- About -->
+      <section id="section-about" class="opt-section">
+        <h1>About &amp; Privacy</h1>
+        <ul class="opt-about-list">
+          <li>API keys are stored only in this browser's local extension storage — never synced, never sent to any server other than the AI provider you selected.</li>
+          <li>Screenshots are sent directly from your browser to the AI provider you configured, using their official API.</li>
+          <li>All AI requests are made from the extension's background service worker, not from web pages, so page scripts can never read your API key.</li>
+          <li>History is stored locally and can be cleared at any time from the History tab.</li>
+        </ul>
+        <p class="opt-version">Version 1.0.0</p>
+      </section>
+    </main>
+  </div>
+
+  <!-- History item detail modal -->
+  <div id="history-modal" class="opt-modal" hidden>
+    <div class="opt-modal-card">
+      <button id="history-modal-close" class="opt-icon-btn opt-modal-close" type="button" aria-label="Close">✕</button>
+      <div id="history-modal-body"></div>
+    </div>
+  </div>
+
+  <script type="module" src="options.js"></script>
+</body>
+</html>
