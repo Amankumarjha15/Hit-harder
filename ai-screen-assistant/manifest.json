@@ -1,0 +1,76 @@
+{
+  "manifest_version": 3,
+  "name": "AI Screen Assistant",
+  "version": "1.0.0",
+  "description": "Capture what's on your screen and get instant AI analysis: explain code, solve problems, summarize documents, and more.",
+  "icons": {
+    "16": "assets/icons/icon-16.png",
+    "32": "assets/icons/icon-32.png",
+    "48": "assets/icons/icon-48.png",
+    "128": "assets/icons/icon-128.png"
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "commands",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://api.openai.com/*",
+    "https://generativelanguage.googleapis.com/*",
+    "https://api.anthropic.com/*",
+    "https://api.groq.com/*",
+    "https://openrouter.ai/*",
+    "https://api.deepseek.com/*"
+  ],
+  "background": {
+    "service_worker": "background/background.js",
+    "scripts": ["background/background.js"],
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "assets/icons/icon-16.png",
+      "32": "assets/icons/icon-32.png",
+      "48": "assets/icons/icon-48.png",
+      "128": "assets/icons/icon-128.png"
+    },
+    "default_title": "AI Screen Assistant (Ctrl+Shift+A)"
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
+  "commands": {
+    "capture-and-analyze": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+A",
+        "mac": "Command+Shift+A"
+      },
+      "description": "Capture the visible tab and analyze it with AI"
+    },
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+U",
+        "mac": "Command+Shift+U"
+      },
+      "description": "Open AI Screen Assistant popup"
+    }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["overlay/overlay.css", "utils/markdown.js", "utils/highlight.js"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "ai-screen-assistant@example.com",
+      "strict_min_version": "109.0"
+    }
+  }
+}

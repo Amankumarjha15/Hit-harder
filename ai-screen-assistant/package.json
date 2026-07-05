@@ -1,0 +1,17 @@
+{
+  "name": "ai-screen-assistant",
+  "version": "1.0.0",
+  "description": "Capture your screen and get instant AI-powered analysis in a floating overlay. Works on Chrome and Firefox from one codebase.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "eslint . --ext .js",
+    "package:chrome": "node scripts/zip-extension.js chrome",
+    "package:firefox": "web-ext build --source-dir=. --artifacts-dir=dist --ignore-files=scripts node_modules dist *.zip package.json package-lock.json .eslintrc.json README.md",
+    "start:firefox": "web-ext run --source-dir=. --ignore-files=scripts node_modules dist *.zip"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "web-ext": "^8.3.0"
+  }
+}
